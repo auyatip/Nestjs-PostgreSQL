@@ -1,74 +1,92 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+----------------------------------
+## BACK END question
+----------------------------------
+## 1. Assuming the system currently has three microservices: Customer API, Master Data API,and Transaction Data API, there is a new feature that requires data from all threemicroservices to be displayed in near real-time. The current technology stack includesREST APIs and an RDBMS database. How would you design a new API for this feature?
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+### Answer:
+1. Create a new service , acting as the orchestrator for the microservices.
+2. Choose technology that is fast like NodeJs, NestJs and use Database Cache (Redis) for catch data no long time.
+3. Use a message broker like Kafka if the system needs real-time updates in the future.
+4. when you design API should be have Query Parameters when get Data.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+------------------------------------------------------------------------------------------------------------
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 2. Assuming the team has started planning a new project, the project manager asks you for a performance test strategy plan for this release. How would you recommend proceeding to the project manager?
 
-## Installation
+### Answer:
+1. define goal and scope of project release.
+2. understand the app/web and system architecture.
+3. prepare the environment like Production environment. such as Staging/Tat/Dev evironment
+4. simulate user behavior.
+5. choose a testing tool such as JMeter,
+6. excute the test.
+7. analyze results.
+8. report results.
+9. improvement and repeat testing.
 
-```bash
-$ npm install
-```
+------------------------------------------------------------------------------------------------------------
+3. Design and develop two APIs using NestJS and Postgres with the following
+specifications:
 
-## Running the app
+answer = In The Code
+------------------------------------------------------------------------------------------------------------
 
-```bash
-# development
-$ npm run start
+----------------------------------
+## FRONT END question
+----------------------------------
 
-# watch mode
-$ npm run start:dev
+## useCallback คืออะไร
 
-# production mode
-$ npm run start:prod
-```
+### Answer:
+ส่วนใหญ่จะใช้ในการ optimize ให้มีความเร็วขึ้น เพราะถ้าใช้ useCallback จะป้องกันการรีเรนเดอร์ใหม่ของ Function ที่ไม่จำเป็นต้อง re-render ทุกครั้งเมื่อมีการ render component นั้น จะเรียก Function ใหม่ก็ต่อเมื่อมีค่า ใน dependencies เปลี่ยนแปลงไป
 
-## Test
 
-```bash
-# unit tests
-$ npm run test
+------------------------------------------------------------------------------------------------------------
+### 2. Unit-test by Jest
 
-# e2e tests
-$ npm run test:e2e
+```javascript
+import React from 'react';
+import { render, screen, waitFor } from '@testing-library/react';
+import UserProfile from './UserProfile';
 
-# test coverage
-$ npm run test:cov
-```
+// Mock ฟังก์ชัน fetch
+global.fetch = jest.fn();
 
-## Support
+describe('UserProfile Component', () => {
+  it('แสดงสถานะ loading ตอนเริ่มต้น', () => {
+    // Mock การเรียก fetch ให้สำเร็จ
+    fetch.mockResolvedValueOnce({ ok: true, json: () => ({ name: 'John Doe', email: 'john@example.com' }) });
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+    render(<UserProfile userId="1" />);
 
-## Stay in touch
+    // ตรวจสอบว่าแสดงข้อความ "Loading..." ตอนเริ่มต้น
+    expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
+  });
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+  it('แสดงข้อมูลผู้ใช้หลังจาก fetch สำเร็จ', async () => {
+    const mockUser = { name: 'John Doe', email: 'john@example.com' };
+    fetch.mockResolvedValueOnce({ ok: true, json: () => mockUser });
 
-## License
+    render(<UserProfile userId="1" />);
 
-Nest is [MIT licensed](LICENSE).
-# Nestjs-PostgreSQL
+    // รอให้ component จบการดึงข้อมูลและทำการ re-render
+    await waitFor(() => screen.getByText(mockUser.name));
+
+    // ตรวจสอบว่าแสดงข้อมูลผู้ใช้
+    expect(screen.getByText(mockUser.name)).toBeInTheDocument();
+    expect(screen.getByText(`Email: ${mockUser.email}`)).toBeInTheDocument();
+  });
+
+  it('แสดงข้อความ error หาก fetch ล้มเหลว', async () => {
+    fetch.mockRejectedValueOnce(new Error('Failed to fetch user data'));
+
+    render(<UserProfile userId="1" />);
+
+    // รอให้ component จบการดึงข้อมูล
+    await waitFor(() => screen.getByText(/Error: Failed to fetch user data/i));
+
+    // ตรวจสอบว่าแสดงข้อความ error
+    expect(screen.getByText(/Error: Failed to fetch user data/i)).toBeInTheDocument();
+  });
+});
