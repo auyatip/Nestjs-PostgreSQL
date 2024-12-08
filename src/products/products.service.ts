@@ -13,6 +13,7 @@ export class ProductsService {
     private productRepository: Repository<Product>,
   ) {}
 
+  //สร้าง create Product ชิ้นใหม่ โดยสร้างพร้อมๆกันหลายๆภาษา เพื่อใช้ในการ query
   async createProduct(createProductDto: CreateProductDto) {
     const product = this.productRepository.create({
       sku: createProductDto.sku,
@@ -30,6 +31,7 @@ export class ProductsService {
     return await this.productRepository.save(product);
   }
 
+  // รับ Search มาใช้ จะกรอกภาษาอะไรก็ได้ มา เพื่อที่จะ query หาใน translations
   async search(searchTerm: string, page: number, pageSize: number) {
     const [products, total] = await this.productRepository.findAndCount({
       relations: ['translations'],
